@@ -1,8 +1,9 @@
 /*
-	Research Mission with new difficulty selection system
+	Cargo Tower Mission with new difficulty selection system
 	Hardcore now gives persistent vehicle
 	easy/mod/difficult/hardcore - reworked by [CiC]red_ned http://cic-gaming.co.uk
 	based on work by Defent and eraser1
+	Made for GOGs Server by Cloudskipper
 */
 
 private ["_num", "_side", "_pos", "_OK", "_difficulty", "_AICount", "_group", "_type", "_launcher", "_staticGuns", "_crate1", "_vehicle", "_pinCode", "_class", "_veh", "_crate_loot_values1", "_missionAIUnits", "_missionObjs", "_msgStart", "_msgWIN", "_msgLOSE", "_missionName", "_markers", "_time", "_added", "_cleanup", "_baseObjs", "_crate_weapons", "_crate_weapon_list", "_crate_items", "_crate_item_list", "_crate_backpacks", "_PossibleDifficulty"];
@@ -123,10 +124,10 @@ _AISpawnLocations =
 _group =
 [
 	_AISpawnLocations,		// Position AI 
-	_AICount,				// Number of AI
+	_AICount,			// Number of AI
 	_difficulty,			// "random","hardcore","difficult","moderate", or "easy"
-	"assault", 				// "random","assault","MG","sniper" or "unarmed" OR [_type,_launcher]
-	_side 					// "bandit","hero", etc.
+	"assault", 			// "random","assault","MG","sniper" or "unarmed" OR [_type,_launcher]
+	_side 				// "bandit","hero", etc.
 ] call DMS_fnc_SpawnAIGroup_MultiPos;
 
 // add vehicle patrol
@@ -147,7 +148,6 @@ _staticGuns =
 [
 	[
 		// make statically positioned relative to centre point, keep static as they are on top of building
-		
 		[(_pos select 0)+1.87793,(_pos select 1)+2.8313,(_pos select 2)+12.7646],
 		[(_pos select 0)+2.68896,(_pos select 1)+3.78418,(_pos select 2)+15.3646],
 		[(_pos select 0)-6.91846,(_pos select 1)+1.02295,(_pos select 2)+17.8895],
