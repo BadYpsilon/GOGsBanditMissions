@@ -216,7 +216,7 @@ _missionObjs =
 _msgLOSE = ['#FF0000',"The Cargo Tower has been destroyed and the rebels have escaped to the Marine Base..."];
 
 // Define mission name (for map marker and logging)
-_missionName = "Mission: Cargo Tower #7";
+_missionName = "Cargo Tower #7";
 
 // Create Markers
 _markers =
