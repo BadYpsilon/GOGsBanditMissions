@@ -1,6 +1,5 @@
 [
-	["Exile_Construction_Flag_Preview",[9.86816,-1.12988,0],0,[true,false]],
-	["Land_Cargo_Tower_V1_No7_F",[-1.87305,0.282959,-0.5],0],
+	["Land_Cargo_Tower_V1_No7_F",[-1.87305,0.282959,-0.5],-0.5],
 	["Land_HBarrier_5_F",[3.75781,-11.8999,0],0.329668],
 	["Land_HBarrier_5_F",[8.35986,-10.2234,0],319.331],
 	["Land_HBarrier_5_F",[4.58936,11.1768,0],359.729],
