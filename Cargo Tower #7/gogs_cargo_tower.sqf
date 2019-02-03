@@ -150,7 +150,7 @@ _staticGuns =
 		// make statically positioned relative to centre point, keep static as they are on top of building
 		[(_pos select 0)+1.87793,(_pos select 1)+2.8313,(_pos select 2)+12.7646],
 		[(_pos select 0)+2.68896,(_pos select 1)+3.78418,(_pos select 2)+15.3646],
-		[(_pos select 0)-6.91846,(_pos select 1)+1.02295,(_pos select 2)+17.8895],
+		[(_pos select 0)+3.91846,(_pos select 1)+1.02295,(_pos select 2)+17.8895], // On Top of Tower #7
 		[(_pos select 0)-5.62598,(_pos select 1)-7.56177,(_pos select 2)+0.05],
 		[(_pos select 0)+6.5708,(_pos select 1)+2.698,(_pos select 2)+0.05]
 	],
