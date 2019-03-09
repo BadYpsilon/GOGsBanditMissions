@@ -160,6 +160,16 @@ _staticGuns =
 	"bandit"
 ] call DMS_fnc_SpawnAIStaticMG;
 
+// prevents AI's aiming from being distracted by its shooting, moving, turning, reloading, hit, injury, fatigue, suppression or concealed/lost target
+{
+    _x disableAI "AIMINGERROR";
+} forEach (units _group);
+
+
+// Set AI Behaviour to Stealth
+{
+    _x setBehaviour "STEALTH";
+} forEach (units _group);
 
 // Create Buildings - use seperate file as found in the mercbase mission
 _baseObjs =
