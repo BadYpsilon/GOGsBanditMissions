@@ -105,18 +105,18 @@ _AISpawnLocations =
 
 [
 	// make spawnpoints positioned relative to centre point, keep static as they are on top of building
-	[(_pos select 0)+23.9663,(_pos select 1)-0.959717,(_pos select 2)+00.5],
+	[(_pos select 0)+23.9663,(_pos select 1)-0.959717,(_pos select 2)+0.05],
 	[(_pos select 0)+13.1772,(_pos select 1)-4.9834,(_pos select 2)+0.05],
 	[(_pos select 0)+13.3276,(_pos select 1)+3.93848,(_pos select 2)+0.05],
 	[(_pos select 0)+23.9995,(_pos select 1)-6.91211,(_pos select 2)+0.05],
 	[(_pos select 0)+23.9526,(_pos select 1)+4.93945,(_pos select 2)+0.05],
-	[(_pos select 0)+1.65771,(_pos select 1)+2.62231,(_pos select 2)+17.8895],
-	[(_pos select 0)-5.79443,(_pos select 1)-3.24585,(_pos select 2)+17.8895],
-	[(_pos select 0)-5.29492,(_pos select 1)+3.20532,(_pos select 2)+17.8895],
-	[(_pos select 0)-6.04492,(_pos select 1)+0.412842,(_pos select 2)+15.3646],
-	[(_pos select 0)+0.40381,(_pos select 1)+1.35181,(_pos select 2)+-15.3646],
-	[(_pos select 0)-2.05029,(_pos select 1)+1.07007,(_pos select 2)+12.7646],
-	[(_pos select 0)+0.674316,(_pos select 1)-1.95898,(_pos select 2)+12.7646]
+	[(_pos select 0)+1.65771,(_pos select 1)+2.62231,(_pos select 2)+0.05],
+	[(_pos select 0)-5.79443,(_pos select 1)-3.24585,(_pos select 2)+0.05],
+	[(_pos select 0)-5.29492,(_pos select 1)+3.20532,(_pos select 2)+0.05],
+	[(_pos select 0)-6.04492,(_pos select 1)+0.412842,(_pos select 2)+0.05],
+	[(_pos select 0)+0.40381,(_pos select 1)+1.35181,(_pos select 2)+0.05],
+	[(_pos select 0)-2.05029,(_pos select 1)+1.07007,(_pos select 2)+0.05],
+	[(_pos select 0)+0.674316,(_pos select 1)-1.95898,(_pos select 2)+0.05]
 
 ];
 
@@ -142,15 +142,26 @@ _veh =
 	_side
 ] call DMS_fnc_SpawnAIVehicle;
 
+// prevents AI's aiming from being distracted by its shooting, moving, turning, reloading, hit, injury, fatigue, suppression or concealed/lost target
+{
+    _x disableAI "AIMINGERROR";
+} forEach (units _group);
+
+
+//
+{
+    _x setBehaviour "STEALTH";
+} forEach (units _group);
+
 
 // add static guns
 _staticGuns =
 [
 	[
 		// make statically positioned relative to centre point, keep static as they are on top of building
-		[(_pos select 0)+1.87793,(_pos select 1)+2.8313,(_pos select 2)+12.7646],
-		[(_pos select 0)+2.68896,(_pos select 1)+3.78418,(_pos select 2)+15.3646],
-		[(_pos select 0)+3.91846,(_pos select 1)+1.02295,(_pos select 2)+17.8895], // On Top of Tower #7
+		[(_pos select 0)+1.87793,(_pos select 1)+2.8313,(_pos select 2)+12.8],
+		[(_pos select 0)+2.68896,(_pos select 1)+3.78418,(_pos select 2)+15.4],
+		[(_pos select 0)+2.68896,(_pos select 1)+3.78418,(_pos select 2)+17.9], // On Top of Tower #7
 		[(_pos select 0)-5.62598,(_pos select 1)-7.56177,(_pos select 2)+0.05],
 		[(_pos select 0)+6.5708,(_pos select 1)+2.698,(_pos select 2)+0.05]
 	],
@@ -160,16 +171,6 @@ _staticGuns =
 	"bandit"
 ] call DMS_fnc_SpawnAIStaticMG;
 
-// prevents AI's aiming from being distracted by its shooting, moving, turning, reloading, hit, injury, fatigue, suppression or concealed/lost target
-{
-    _x disableAI "AIMINGERROR";
-} forEach (units _group);
-
-
-// Set AI Behaviour to Stealth
-{
-    _x setBehaviour "STEALTH";
-} forEach (units _group);
 
 // Create Buildings - use seperate file as found in the mercbase mission
 _baseObjs =
@@ -213,7 +214,7 @@ _missionAIUnits =
 // Define mission-spawned objects and loot values
 _missionObjs =
 [
-	_staticGuns+_baseObjs+[_veh],			// armed AI vehicle, base objects, and static guns
+	_staticGuns+_baseObjs+[_veh],	// armed AI vehicle, base objects, and static guns
 	[_vehicle],								//this is prize vehicle
 	[[_crate1,_crate_loot_values1]]			//this is prize crate
 ];
