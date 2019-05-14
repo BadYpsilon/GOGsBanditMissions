@@ -335,7 +335,7 @@ _missionObjs =
 // Define Mission Win message defined in persistent choice
 
 // Define Mission Lose message
-_msgLOSE = ['#FF0000',"The Cargo Tower has been destroyed and the rebels have escaped to the Marine Base..."];
+_msgLOSE = ['#FF0000',"The attackers flew off and the base escaped attack...."];
 
 // Define mission name (for map marker and logging)
 _missionName = "Armed Heli Steal";
