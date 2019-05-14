@@ -219,7 +219,7 @@ _veh =
 	_side
 ] call DMS_fnc_SpawnAIVehicle;
 
-// add vehicle antiair
+// add vehicle anti air
 _veh2 =
 [
 	[
@@ -229,7 +229,7 @@ _veh2 =
 	"assault",
 	_difficulty,
 	_side,
-	"O_APC_Tracked_02_AA_F"
+	"CUP_I_Ural_ZU23_TK_Gue"
 ] call DMS_fnc_SpawnAIVehicle;
 
 
@@ -261,15 +261,26 @@ _baseObjs =
 
 //A list of possible chopper add more of one choppers to weight it towards that
 _PossibleChopper		= 	[
-								"B_Heli_Light_01_dynamicLoadout_F",
-								"B_Heli_Light_01_dynamicLoadout_F",
-								"B_Heli_Transport_03_F",
-								"B_Heli_Transport_03_F",
-								"B_Heli_Transport_01_F",
-								"B_Heli_Transport_01_F",
-								"B_Heli_Transport_01_F",
-								"I_Heli_light_03_dynamicLoadout_F",
-								"I_Heli_light_03_dynamicLoadout_F"
+								"CUP_B_Mi171Sh_Unarmed_ACR",	// Mi1171Sh (MG 7.62)
+								"CUP_B_Mi171Sh_Unarmed_ACR",	// Mi1171Sh (MG 7.62)
+								"CUP_B_Mi171Sh_Unarmed_ACR",	// Mi1171Sh (MG 7.62)
+								"CUP_B_CH47F_USA",		// CH-47F (Minigun 6.5)
+								"CUP_B_CH47F_GB",		// Chinook HC-4 (Minigun 6.5)
+								"CUP_I_CH47F_RACS",		// CH-47F (Minigun 6.5)
+								"CUP_I_UH1H_TK_GUE",		// UH-1H Camo (MG 7.62)
+								"CUP_O_UH1H_TKA",		// UH-1H (MG 7.62)
+								"CUP_O_UH1H_TKA",		// UH-1H (MG 7.62)
+								"CUP_B_MH60S_USMC",		// MH-60 Seehawk (M240)
+								"CUP_B_MH60S_USMC",		// MH-60 Seehawk (M240)
+								"CUP_B_MH60S_FFV_USMC",		// MH-60 Seehawk (M240)
+								"CUP_B_MH60S_FFV_USMC",		// MH-60 Seehawk (M240)
+								"CUP_B_UH60M_FFV_US",		// UH-60 Blackhawk ((Minigun 6.5)
+								"CUP_B_UH60L_FFV_US",		// UH-60 Blackhawk (Minigun 6.5)
+								"O_Heli_Light_02_F",		// PO-30 Orca (Minigun 6.5)
+								"O_Heli_Light_02_F",		// PO-30 Orca (Minigun 6.5)
+								"B_Heli_Light_01_armed_F",	// AH-9 Pawnee (Minigun 7.62)
+								"I_Heli_light_03_F",		// Hellcat (Minigun 7.62)
+								"CUP_B_UH60S_USN"		// MH-60 Seehawk (GAU)
 							];
 //choose difficulty and set value
 _chopper = selectRandom _PossibleChopper;
