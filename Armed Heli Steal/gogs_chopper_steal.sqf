@@ -45,16 +45,9 @@ if !(_OK) exitWith
 
 //create possible difficulty add more of one difficulty to weight it towards that
 _PossibleDifficulty		= 	[
-								"easy",
-								"easy",
-								"moderate",
-								"moderate",
-								"difficult",
-								"difficult",
-								"difficult",
-								"hardcore",
-								"hardcore"
-							];
+					"hardcore",
+					"hardcore"
+					];
 //choose difficulty and set value
 _difficulty = selectRandom _PossibleDifficulty;
 
@@ -276,7 +269,6 @@ _PossibleChopper		= 	[
 								"CUP_B_MH60S_FFV_USMC",		// MH-60 Seehawk (M240)
 								"CUP_B_UH60M_FFV_US",		// UH-60 Blackhawk ((Minigun 6.5)
 								"CUP_B_UH60L_FFV_US",		// UH-60 Blackhawk (Minigun 6.5)
-								"O_Heli_Light_02_F",		// PO-30 Orca (Minigun 6.5)
 								"O_Heli_Light_02_F",		// PO-30 Orca (Minigun 6.5)
 								"B_Heli_Light_01_armed_F",	// AH-9 Pawnee (Minigun 7.62)
 								"I_Heli_light_03_F",		// Hellcat (Minigun 7.62)
