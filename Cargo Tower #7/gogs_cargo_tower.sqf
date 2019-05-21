@@ -6,7 +6,7 @@
 	Made for GOGs Server by Cloudskipper
 */
 
-private ["_num", "_side", "_pos", "_OK", "_difficulty", "_AICount", "_group", "_type", "_launcher", "_staticGuns", "_crate1", "_vehicle", "_pinCode", "_class", "_veh", "_crate_loot_values1", "_missionAIUnits", "_missionObjs", "_msgStart", "_msgWIN", "_msgLOSE", "_missionName", "_markers", "_time", "_added", "_cleanup", "_baseObjs", "_crate_weapons", "_crate_weapon_list", "_crate_items", "_crate_item_list", "_crate_backpacks", "_PossibleDifficulty"];
+private ["_num", "_side", "_pos", "_OK", "_difficulty", "_AICount", "_group", "_type", "_launcher", "_staticGuns", "_crate1", "_vehicle", "_pinCode", "_class", "_veh", "_crate_loot_values1", "_missionAIUnits", "_missionObjs", "_msgStart", "_msgWIN", "_msgLOSE", "_missionName", "_markers", "_time", "_added", "_cleanup", "_baseObjs", "_crate_weapons", "_crate_weapon_list", "_crate_items", "_crate_item_list", "_crate_backpacks", "_PossibleDifficulty", "_RandomeVehicle", "_PossibleVehicle"];
 
 // For logging purposes
 _num = DMS_MissionCount;
@@ -116,6 +116,17 @@ _AISpawnLocations =
 
 ];
 
+_AITowerDefenseLocations =
+
+[
+	[(_pos select 0)-5.79443,(_pos select 1)-3.24585,(_pos select 2)+17.8895],
+	[(_pos select 0)-5.29492,(_pos select 1)+3.20532,(_pos select 2)+17.8895],
+	[(_pos select 0)-6.04492,(_pos select 1)+0.412842,(_pos select 2)+15.3646],
+	[(_pos select 0)+0.40381,(_pos select 1)+1.35181,(_pos select 2)+-15.3646],
+	[(_pos select 0)-2.05029,(_pos select 1)+1.07007,(_pos select 2)+12.7646],
+	[(_pos select 0)+0.674316,(_pos select 1)-1.95898,(_pos select 2)+12.7646]
+];
+
 // add Ai group
 _group =
 [
@@ -138,23 +149,16 @@ _group =
 // add tower defense group
 _group2 =
 [
-	[
-	[(_pos select 0)-5.79443,(_pos select 1)-3.24585,(_pos select 2)+17.8895],
-	[(_pos select 0)-5.29492,(_pos select 1)+3.20532,(_pos select 2)+17.8895],
-	[(_pos select 0)-6.04492,(_pos select 1)+0.412842,(_pos select 2)+15.3646],
-	[(_pos select 0)+0.40381,(_pos select 1)+1.35181,(_pos select 2)+-15.3646],
-	[(_pos select 0)-2.05029,(_pos select 1)+1.07007,(_pos select 2)+12.7646],
-	[(_pos select 0)+0.674316,(_pos select 1)-1.95898,(_pos select 2)+12.7646]
-	]
-	6,				// Number of AI
-	_difficulty,			// "random","hardcore","difficult","moderate", or "easy"
-	"MG", 				// "random","assault","MG","sniper" or "unarmed" OR [_type,_launcher]
-	_side 				// "bandit","hero", etc.
+	_AITowerDefenseLocations,
+	6,					// Number of AI
+	_difficulty,				// "random","hardcore","difficult","moderate", or "easy"
+	"MG", 					// "random","assault","MG","sniper" or "unarmed" OR [_type,_launcher]
+	_side 					// "bandit","hero", etc.
 ] call DMS_fnc_SpawnAIGroup_MultiPos;
 
 // stops the AI’s movement but not the target alignment
 {
-    _x disableAI "PATH";
+    _x disableAI "MOVE";
 } forEach (units _group2);
 
 
@@ -197,24 +201,31 @@ _baseObjs =
 	_pos
 ] call DMS_fnc_ImportFromM3E_3DEN;
 
-
+//A list of possible vehicles add more of one vehicle to weight it towards that
+_PossibleVehicle		= 	[
+									"I_MRAP_03_F", // Strider
+									"B_MRAP_01_F", // Hunter
+									"O_MRAP_02_F"  // Ifrit
+							];
+//choose difficulty and set value
+_RandomeVehicle = selectRandom _PossibleVehicle;
 
 
 // If hardcore give pincoded vehicle, if not give non persistent
 if (_difficulty isEqualTo "hardcore") then
 {
 	_pinCode = (1000 +(round (random 8999)));
-	_vehicle = ["B_T_MRAP_01_F",[(_pos select 0)-50, (_pos select 1)-50],_pinCode] call DMS_fnc_SpawnPersistentVehicle;
-	_msgWIN = ['#0080ff',format ["The Cargo Tower has been Captured and the Guns are Stolen, entry code for the Hunter is %1...",_pinCode]];
+	_vehicle = [_RandomeVehicle,[(_pos select 0)-50, (_pos select 1)-50],_pinCode] call DMS_fnc_SpawnPersistentVehicle;
+	_msgWIN = ['#0080ff',format ["The Cargo Tower has been Captured and the Guns are Stolen, entry code is %1...",_pinCode]];
 }
 else
 {
-	_vehicle = ["B_T_MRAP_01_F",[(_pos select 0)-50,(_pos select 1)-50,0],[], 0, "CAN_COLLIDE"] call DMS_fnc_SpawnNonPersistentVehicle;
+	_vehicle = [_RandomeVehicle,[(_pos select 0)-50,(_pos select 1)-50,0],[], 0, "CAN_COLLIDE"] call DMS_fnc_SpawnNonPersistentVehicle;
 	_msgWIN = ['#0080ff',"The Cargo Tower has been Captured and the Guns are Stolen!"];
 };
 
 // Create Crate
-_crate = ["Box_NATO_AmmoOrd_F",[(_pos select 0)1.0,(_pos select 1)1.0,(_pos select 2)15.4]] call DMS_fnc_SpawnCrate;
+_crate = ["Box_NATO_AmmoOrd_F",[(_pos select 0)+2,(_pos select 1)-1,15]] call DMS_fnc_SpawnCrate;
 
 // Pink Crate ;)
 _crate setObjectTextureGlobal [0,"#(rgb,8,8,3)color(1,0.08,0.57,1)"];
@@ -223,7 +234,7 @@ _crate setObjectTextureGlobal [1,"#(rgb,8,8,3)color(1,0.08,0.57,1)"];
 // Define mission-spawned AI Units
 _missionAIUnits =
 [
-	_group 		// Roaming AI group
+	_group, 	// Roaming AI group
 	_group2 	// Tower defense group
 ];
 
