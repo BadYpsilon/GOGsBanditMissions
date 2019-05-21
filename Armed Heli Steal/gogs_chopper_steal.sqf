@@ -216,7 +216,7 @@ _veh =
 _veh2 =
 [
 	[
-		[(_pos select 0)+22.969,(_pos select 1)-0.124,0.5]
+		[(_pos select 0)+23.05,(_pos select 1)-0.50,0.5]
 	],
 	_group,
 	"assault",
@@ -292,7 +292,7 @@ else
 };
 
 // Create Crate
-_crate = ["Box_NATO_AmmoOrd_F",[(_pos select 0)-8.88,(_pos select 1)-7.12]] call DMS_fnc_SpawnCrate;
+_crate = ["Box_NATO_AmmoOrd_F",[(_pos select 0)-8.88,(_pos select 1)-7.12,(_pos select 2)-10.0]] call DMS_fnc_SpawnCrate;
 
 // Pink Crate ;)
 _crate setObjectTextureGlobal [0,"#(rgb,8,8,3)color(1,0.08,0.57,1)"];
@@ -303,15 +303,16 @@ _crate setObjectTextureGlobal [1,"#(rgb,8,8,3)color(1,0.08,0.57,1)"];
 _crate_loot_values1 =
 [
 	[_crate_weapons,_crate_weapon_list],		// Weapons
-	[_crate_items,_crate_item_list],			// Items + selection list
-	_crate_backpacks 							// Backpacks
+	[_crate_items,_crate_item_list],		// Items + selection list
+	_crate_backpacks 				// Backpacks
 ];
 
 
 // Define mission-spawned AI Units
 _missionAIUnits =
 [
-	_group 		// We only spawned the single group for this mission
+	_group, 		// Assault Group
+	_group2 		// Sniper Group
 ];
 
 // Define mission-spawned objects and loot values
@@ -406,5 +407,6 @@ if !(_added) exitWith
 
 if (DMS_DEBUG) then
 {
-	(format ["MISSION: (%1) :: Mission #%2 started at %3 with %4 AI units and %5 difficulty at time %6",_missionName,_num,_pos,_AICount,_difficulty,_time]) call DMS_fnc_DebugLog;
+	(format ["MISSION: (%1) :: Mission #%2 started at %3 with %4 AI units and %5 difficulty at time %6. Missionprice is a%7.",_missionName,_num,_pos,_AICount,_difficulty,_time,_chopper]) call DMS_fnc_DebugLog;
 };
+
