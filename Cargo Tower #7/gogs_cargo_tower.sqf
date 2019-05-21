@@ -97,10 +97,6 @@ switch (_difficulty) do
 
 _msgStart = ['#FFFF00',"Rebels took over Cargo Tower #7 and are defending their booty. Let no one escape and get the loot!"];
 
-_crate_weapon_list	= ["arifle_SDAR_F","arifle_MX_GL_Black_F","MMG_01_hex_F","MMG_01_tan_F","MMG_02_black_F","MMG_02_camo_F","MMG_02_sand_F","hgun_PDW2000_F","SMG_01_F","hgun_Pistol_heavy_01_F","hgun_Pistol_heavy_02_F"];
-_crate_item_list	= ["H_HelmetLeaderO_ocamo","H_HelmetLeaderO_ocamo","H_HelmetLeaderO_oucamo","H_HelmetLeaderO_oucamo","U_B_survival_uniform","U_B_Wetsuit","U_O_Wetsuit","U_I_Wetsuit","H_HelmetB_camo","H_HelmetSpecB","H_HelmetSpecO_blk","Exile_Item_EMRE","Exile_Item_InstantCoffee","Exile_Item_PowerDrink","Exile_Item_InstaDoc"];
-
-
 _AISpawnLocations =
 
 [
@@ -130,6 +126,38 @@ _group =
 	_side 				// "bandit","hero", etc.
 ] call DMS_fnc_SpawnAIGroup_MultiPos;
 
+// prevents AI's aiming from being distracted by its shooting, moving, turning, reloading, hit, injury, fatigue, suppression or concealed/lost target
+{
+    _x disableAI "AIMINGERROR";
+} forEach (units _group);
+
+{
+    _x setBehaviour "STEALTH";
+} forEach (units _group);
+
+// add tower defense group
+_group2 =
+[
+	[
+	[(_pos select 0)-5.79443,(_pos select 1)-3.24585,(_pos select 2)+17.8895],
+	[(_pos select 0)-5.29492,(_pos select 1)+3.20532,(_pos select 2)+17.8895],
+	[(_pos select 0)-6.04492,(_pos select 1)+0.412842,(_pos select 2)+15.3646],
+	[(_pos select 0)+0.40381,(_pos select 1)+1.35181,(_pos select 2)+-15.3646],
+	[(_pos select 0)-2.05029,(_pos select 1)+1.07007,(_pos select 2)+12.7646],
+	[(_pos select 0)+0.674316,(_pos select 1)-1.95898,(_pos select 2)+12.7646]
+	]
+	6,				// Number of AI
+	_difficulty,			// "random","hardcore","difficult","moderate", or "easy"
+	"MG", 				// "random","assault","MG","sniper" or "unarmed" OR [_type,_launcher]
+	_side 				// "bandit","hero", etc.
+] call DMS_fnc_SpawnAIGroup_MultiPos;
+
+// stops the AI’s movement but not the target alignment
+{
+    _x disableAI "PATH";
+} forEach (units _group2);
+
+
 // add vehicle patrol
 _veh =
 [
@@ -142,16 +170,6 @@ _veh =
 	_side
 ] call DMS_fnc_SpawnAIVehicle;
 
-// prevents AI's aiming from being distracted by its shooting, moving, turning, reloading, hit, injury, fatigue, suppression or concealed/lost target
-{
-    _x disableAI "AIMINGERROR";
-} forEach (units _group);
-
-
-//
-{
-    _x setBehaviour "STEALTH";
-} forEach (units _group);
 
 
 // add static guns
@@ -179,44 +197,42 @@ _baseObjs =
 	_pos
 ] call DMS_fnc_ImportFromM3E_3DEN;
 
+
+
+
 // If hardcore give pincoded vehicle, if not give non persistent
 if (_difficulty isEqualTo "hardcore") then
 {
 	_pinCode = (1000 +(round (random 8999)));
-	_vehicle = ["B_T_MRAP_01_F",[(_pos select 0) -50, (_pos select 1) -50],_pinCode] call DMS_fnc_SpawnPersistentVehicle;
+	_vehicle = ["B_T_MRAP_01_F",[(_pos select 0)-50, (_pos select 1)-50],_pinCode] call DMS_fnc_SpawnPersistentVehicle;
 	_msgWIN = ['#0080ff',format ["The Cargo Tower has been Captured and the Guns are Stolen, entry code for the Hunter is %1...",_pinCode]];
 }
 else
 {
-	_vehicle = ["B_T_MRAP_01_F",[(_pos select 0)-30,(_pos select 1)+0,0],[], 0, "CAN_COLLIDE"] call DMS_fnc_SpawnNonPersistentVehicle;
+	_vehicle = ["B_T_MRAP_01_F",[(_pos select 0)-50,(_pos select 1)-50,0],[], 0, "CAN_COLLIDE"] call DMS_fnc_SpawnNonPersistentVehicle;
 	_msgWIN = ['#0080ff',"The Cargo Tower has been Captured and the Guns are Stolen!"];
 };
 
-// Create Crate type
-_crate1 = ["Box_NATO_Wps_F",_pos] call DMS_fnc_SpawnCrate;
+// Create Crate
+_crate = ["Box_NATO_AmmoOrd_F",[(_pos select 0)1.0,(_pos select 1)1.0,(_pos select 2)15.4]] call DMS_fnc_SpawnCrate;
 
-
-// setup crate iteself with items
-_crate_loot_values1 =
-[
-	[_crate_weapons,_crate_weapon_list],		// Weapons
-	[_crate_items,_crate_item_list],			// Items + selection list
-	_crate_backpacks 							// Backpacks
-];
-
+// Pink Crate ;)
+_crate setObjectTextureGlobal [0,"#(rgb,8,8,3)color(1,0.08,0.57,1)"];
+_crate setObjectTextureGlobal [1,"#(rgb,8,8,3)color(1,0.08,0.57,1)"];
 
 // Define mission-spawned AI Units
 _missionAIUnits =
 [
-	_group 		// We only spawned the single group for this mission
+	_group 		// Roaming AI group
+	_group2 	// Tower defense group
 ];
 
 // Define mission-spawned objects and loot values
 _missionObjs =
 [
 	_staticGuns+_baseObjs+[_veh],	// armed AI vehicle, base objects, and static guns
-	[_vehicle],								//this is prize vehicle
-	[[_crate1,_crate_loot_values1]]			//this is prize crate
+	[_vehicle],			// this is prize vehicle
+	[[_crate,"Sniper"]]		// this is prize crate
 ];
 
 // define start messages in difficulty choice
