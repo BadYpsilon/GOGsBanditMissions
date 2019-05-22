@@ -203,9 +203,9 @@ _baseObjs =
 
 //A list of possible vehicles add more of one vehicle to weight it towards that
 _PossibleVehicle		= 	[
-									"I_MRAP_03_F", // Strider
-									"B_MRAP_01_F", // Hunter
-									"O_MRAP_02_F"  // Ifrit
+									"Exile_Car_Strider", // Strider
+									"Exile_Car_Hunter", // Hunter
+									"Exile_Car_Ifrit"  // Ifrit
 							];
 //choose difficulty and set value
 _RandomeVehicle = selectRandom _PossibleVehicle;
