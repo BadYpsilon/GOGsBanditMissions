@@ -349,10 +349,10 @@ _added =
 [
 	_pos,
 	[
-		[
-			"kill",
-			_group
-		],
+					[
+						"kill",
+						[_group,_group2]
+					],
 		[
 			"playerNear",
 			[_pos,DMS_playerNearRadius]
